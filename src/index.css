@@ -1,0 +1,30 @@
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.nav-desktop {
+  display: flex;
+  gap: 20px;
+}
+
+.menu-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-desktop {
+    display: none;
+  }
+  .menu-btn {
+    display: block;
+  }
+
+    .nav-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+}
