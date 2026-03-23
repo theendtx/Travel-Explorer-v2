@@ -1,8 +1,52 @@
-export default function Explore() {
+import { useEffect, useState } from "react";
+import { getAllCountries,type Country } from "../services/CountriesApi.ts";
+
+function Explore() {
+  // 📦 3 негізгі state (әрқашан болады)
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // ❗ useEffect ішінде async тікелей жазбаймыз
+    // → сондықтан ішкі функция жасаймыз
+    const fetchCountries = async () => {
+      setLoading(true); // ⏳ загрузка басталды
+
+      try {
+        const data = await getAllCountries();
+
+        // 📦 data state-қа сақтаймыз
+        setCountries(data);
+      } catch {
+        // ❗ error болса — сақтаймыз
+        setError("Failed to load countries");
+      } finally {
+        // 🔄 қандай жағдай болса да loading өшеді
+        setLoading(false);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  // 🧠 UI логика (state-қа байланысты өзгереді)
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <div>
-      <h1>Explore Destinations</h1>
-      <p>Discover amazing places around the world.</p>
+      <h1>Explore Countries</h1>
+
+      {/* 📌 Data-ны экранға шығару */}
+      {countries.map((country) => (
+        <div key={country.cca3}>
+          {/* API structure: country.name.common */}
+          <p>{country.name.common}</p>
+        </div>
+      ))}
     </div>
   );
 }
+
+export default Explore;
