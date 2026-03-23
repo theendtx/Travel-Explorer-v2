@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllCountries,type Country } from "../services/CountriesApi.ts";
+import CountryList from "../CountryList/CountryList.tsx";
 
 function Explore() {
   // 📦 3 негізгі state (әрқашан болады)
@@ -37,6 +38,8 @@ function Explore() {
   return (
     <div>
       <h1>Explore Countries</h1>
+
+      <CountryList countries={countries} />
 
       {/* 📌 Data-ны экранға шығару */}
       {countries.map((country) => (
