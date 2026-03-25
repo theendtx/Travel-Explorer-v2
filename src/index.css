@@ -48,3 +48,51 @@
   height: 120px;
   object-fit: cover;
 }
+
+/* 🧱 Skeleton жалпы стиль */
+.skeleton {
+  background: #eee;
+}
+
+/* 📦 Сурет placeholder */
+.skeleton-img {
+  width: 100%;
+  height: 120px;
+  background: #ddd;
+  margin-bottom: 10px;
+}
+
+/* 📦 Текст placeholder */
+.skeleton-text {
+  height: 16px;
+  background: #ddd;
+  margin-bottom: 6px;
+}
+
+.skeleton-text.small {
+  width: 60%;
+}
+
+/* ✨ shimmer эффект (профи вид) */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.skeleton,
+.skeleton-img,
+.skeleton-text {
+  background: linear-gradient(90deg, #eee, #ddd, #eee);
+  background-size: 400px 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+/* ❗ error стиль */
+.error {
+  color: red;
+  font-weight: bold;
+}

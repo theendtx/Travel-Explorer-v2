@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllCountries,type Country } from "../services/CountriesApi.ts";
 import CountryList from "../CountryList/CountryList.tsx";
+import SkeletonList from "../SkeletonList/SkeletonList.tsx";
 
 function Explore() {
   // 📦 3 негізгі state (әрқашан болады)
@@ -32,8 +33,8 @@ function Explore() {
   }, []);
 
   // 🧠 UI логика (state-қа байланысты өзгереді)
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <SkeletonList />;
+  if (error) return <p className="error">{error}</p>;
 
   return (
     <div>
