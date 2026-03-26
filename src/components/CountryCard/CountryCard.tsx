@@ -1,19 +1,22 @@
-type CountryCardProps = {
+import { Link } from "react-router-dom";
+
+type Props = {
     country: any;
 };
 
-function CountryCard({ country }: CountryCardProps) {
+function CountryCard({ country }: Props) {
     return (
-        <div className="country-card">
-            <img
-  src={country.flags?.png}
-  alt={country.name.common}
-/>
+        <Link to={`/country/${country.name.common}`}>
+            <div className="country-card">
+                <img src={country.flags?.png}
+                alt={country.name.common}
+                />
 
-            <h2>{country.name.common}</h2>
+                <h3>{country.name.common}</h3>
 
-            <p>Population: {country.population}</p>
-        </div>
+                <p>Population: {country.population}</p>
+            </div>
+        </Link>
     );
 }
 

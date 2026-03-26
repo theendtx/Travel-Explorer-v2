@@ -41,8 +41,15 @@ function CountryDetails() {
   return (
     <div>
       <h1>{country.name.common}</h1>
+
+      <img
+        src={country.flags?.png}
+        alt={country.name.common}
+        width={200}
+      /> 
       <p>Capital: {country.capital?.[0]}</p>
       <p>Population: {country.population}</p>
+      <p>Region: {country.region}</p>
     </div>
   );
 }
