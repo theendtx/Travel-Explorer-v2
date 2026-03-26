@@ -96,3 +96,20 @@
   color: red;
   font-weight: bold;
 }
+
+.country-details {
+  display: flex;
+  gap: 40px;
+  padding: 20px;
+}
+
+.country-flag {
+  width: 300px;
+  border-radius: 10px;
+}
+
+.country-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -13,7 +13,11 @@ export type Country = {
     png?: string;
     svg?: string;
     alt?: string;
-  };
+   };
+    languages?: {
+      [key: string]: string;
+    }
+  
 };
 
 async function fetchCountries<T>(endpoint: string): Promise<T> {
