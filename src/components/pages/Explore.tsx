@@ -3,6 +3,8 @@ import { getAllCountries,type Country } from "../services/CountriesApi.ts";
 import CountryList from "../CountryList/CountryList.tsx";
 import SkeletonList from "../SkeletonList/SkeletonList.tsx";
 import SearchBar from "../SearchBar.tsx";
+import RegionFilter from "../RegionFilter.tsx";
+import PopulationFilter from "../PopulationFilter.tsx";
 
 function Explore() {
   // 📦 3 негізгі state (әрқашан болады)
@@ -10,9 +12,35 @@ function Explore() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [region, setRegion] = useState("");
+  const [sort, setSort] = useState("");
 
-  const filteredCountries = countries.filter((country) =>
-    country.name.common.toLowerCase().includes(search.toLowerCase()))
+  let filteredCountries = countries;
+
+// 🔍 search (алдыңғы блок)
+filteredCountries = filteredCountries.filter((country) =>
+  country.name.common.toLowerCase().includes(search.toLowerCase())
+);
+
+// 🌍 region filter
+if (region) {
+  filteredCountries = filteredCountries.filter(
+    (country) => country.region === region
+  );
+}
+
+// 📊 sorting
+if (sort === "asc") {
+  filteredCountries = [...filteredCountries].sort(
+    (a, b) => a.population - b.population
+  );
+}
+
+if (sort === "desc") {
+  filteredCountries = [...filteredCountries].sort(
+    (a, b) => b.population - a.population
+  );
+}
 
   useEffect(() => {
     // ❗ useEffect ішінде async тікелей жазбаймыз
@@ -45,10 +73,14 @@ function Explore() {
   <div>
     <h1>Explore Countries</h1>
 
-    {/* 🔍 Search */}
+    {/* 🔍 search */}
     <SearchBar onSearch={setSearch} />
 
-    {/* 📦 Фильтрленген list */}
+    {/* 🌍 filters */}
+    <RegionFilter value={region} onChange={setRegion} />
+    <PopulationFilter value={sort} onChange={setSort} />
+
+    {/* 📦 result */}
     <CountryList countries={filteredCountries} />
   </div>
 );
