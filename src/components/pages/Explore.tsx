@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { getAllCountries,type Country } from "../services/CountriesApi.ts";
 import CountryList from "../CountryList/CountryList.tsx";
 import SkeletonList from "../SkeletonList/SkeletonList.tsx";
+import SearchBar from "../SearchBar.tsx";
 
 function Explore() {
   // 📦 3 негізгі state (әрқашан болады)
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  const filteredCountries = countries.filter((country) =>
+    country.name.common.toLowerCase().includes(search.toLowerCase()))
 
   useEffect(() => {
     // ❗ useEffect ішінде async тікелей жазбаймыз
@@ -37,20 +42,16 @@ function Explore() {
   if (error) return <p className="error">{error}</p>;
 
   return (
-    <div>
-      <h1>Explore Countries</h1>
+  <div>
+    <h1>Explore Countries</h1>
 
-      <CountryList countries={countries} />
+    {/* 🔍 Search */}
+    <SearchBar onSearch={setSearch} />
 
-      {/* 📌 Data-ны экранға шығару */}
-      {countries.map((country) => (
-        <div key={country.cca3}>
-          {/* API structure: country.name.common */}
-          <p>{country.name.common}</p>
-        </div>
-      ))}
-    </div>
-  );
+    {/* 📦 Фильтрленген list */}
+    <CountryList countries={filteredCountries} />
+  </div>
+);
 }
 
 export default Explore;
