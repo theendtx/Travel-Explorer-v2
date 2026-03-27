@@ -1,63 +1,46 @@
 import { useEffect, useState } from "react";
-import { getAllCountries,type Country } from "../services/CountriesApi.ts";
-import CountryList from "../CountryList/CountryList.tsx";
-import SkeletonList from "../SkeletonList/SkeletonList.tsx";
-import SearchBar from "../SearchBar.tsx";
-import RegionFilter from "../RegionFilter.tsx";
-import PopulationFilter from "../PopulationFilter.tsx";
+import { getAllCountries, type Country } from "../services/CountriesApi";
 
-function Explore() {
-  // 📦 3 негізгі state (әрқашан болады)
+import CountryList from "../CountryList/CountryList";
+import SearchBar from "../SearchBar";
+import RegionFilter from "../RegionFilter";
+import PopulationFilter from "../PopulationFilter";
+import SkeletonList from "../SkeletonList/SkeletonList";
+
+/**
+ * 🔥 Props App-тен келеді
+ */
+type Props = {
+  favorites: string[];
+  onToggleFavorite: (name: string) => void;
+};
+
+function Explore({ favorites, onToggleFavorite }: Props) {
+  /**
+   * 📦 State (локальный)
+   */
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // 🔍 search + filters
   const [search, setSearch] = useState("");
   const [region, setRegion] = useState("");
   const [sort, setSort] = useState("");
 
-  let filteredCountries = countries;
-
-// 🔍 search (алдыңғы блок)
-filteredCountries = filteredCountries.filter((country) =>
-  country.name.common.toLowerCase().includes(search.toLowerCase())
-);
-
-// 🌍 region filter
-if (region) {
-  filteredCountries = filteredCountries.filter(
-    (country) => country.region === region
-  );
-}
-
-// 📊 sorting
-if (sort === "asc") {
-  filteredCountries = [...filteredCountries].sort(
-    (a, b) => a.population - b.population
-  );
-}
-
-if (sort === "desc") {
-  filteredCountries = [...filteredCountries].sort(
-    (a, b) => b.population - a.population
-  );
-}
-
+  /**
+   * 🌍 API fetch
+   */
   useEffect(() => {
-    // ❗ useEffect ішінде async тікелей жазбаймыз
-    // → сондықтан ішкі функция жасаймыз
     const fetchCountries = async () => {
-      setLoading(true); // ⏳ загрузка басталды
+      setLoading(true);
 
       try {
         const data = await getAllCountries();
-
-        // 📦 data state-қа сақтаймыз
         setCountries(data);
       } catch {
-        // ❗ error болса — сақтаймыз
         setError("Failed to load countries");
       } finally {
-        // 🔄 қандай жағдай болса да loading өшеді
         setLoading(false);
       }
     };
@@ -65,25 +48,63 @@ if (sort === "desc") {
     fetchCountries();
   }, []);
 
-  // 🧠 UI логика (state-қа байланысты өзгереді)
+  /**
+   * 🧠 FILTER + SEARCH + SORT
+   */
+  let filteredCountries = countries;
+
+  // 🔍 search
+  if (search) {
+    filteredCountries = filteredCountries.filter((c) =>
+      c.name.common.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
+  // 🌍 region
+  if (region) {
+    filteredCountries = filteredCountries.filter(
+      (c) => c.region === region
+    );
+  }
+
+  // 📊 sorting
+  if (sort === "asc") {
+    filteredCountries = [...filteredCountries].sort(
+      (a, b) => a.population - b.population
+    );
+  }
+
+  if (sort === "desc") {
+    filteredCountries = [...filteredCountries].sort(
+      (a, b) => b.population - a.population
+    );
+  }
+
+  /**
+   * 🧠 UI STATES
+   */
   if (loading) return <SkeletonList />;
   if (error) return <p className="error">{error}</p>;
 
   return (
-  <div>
-    <h1>Explore Countries</h1>
+    <div>
+      <h1>Explore Countries</h1>
 
-    {/* 🔍 search */}
-    <SearchBar onSearch={setSearch} />
+      {/* 🔍 Search */}
+      <SearchBar onSearch={setSearch} />
 
-    {/* 🌍 filters */}
-    <RegionFilter value={region} onChange={setRegion} />
-    <PopulationFilter value={sort} onChange={setSort} />
+      {/* 🌍 Filters */}
+      <RegionFilter value={region} onChange={setRegion} />
+      <PopulationFilter value={sort} onChange={setSort} />
 
-    {/* 📦 result */}
-    <CountryList countries={filteredCountries} />
-  </div>
-);
+      {/* 📦 LIST */}
+      <CountryList
+        countries={filteredCountries}
+        favorites={favorites}
+        onToggleFavorite={onToggleFavorite}
+      />
+    </div>
+  );
 }
 
 export default Explore;
