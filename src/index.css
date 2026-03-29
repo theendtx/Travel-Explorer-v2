@@ -113,3 +113,49 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+/* 📱 mobile */
+@media (max-width: 600px) {
+  .nav-links {
+    display: none; /* жасырамыз */
+  }
+}
+
+form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+input, select, button {
+  padding: 8px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filters input,
+.filters select {
+  flex: 1;
+  min-width: 120px;
+}
