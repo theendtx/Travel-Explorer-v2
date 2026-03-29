@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Layout from "./components/Layout/Layout";
 import Home from "./components/pages/Home";
@@ -13,7 +13,19 @@ function App() {
    * ❤️ GLOBAL STATE
    * Барлық беттерге ортақ favorites
    */
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<string[]>(() => {
+      const saved = localStorage.getItem("favorites");
+
+  if (saved) {
+    return JSON.parse(saved);
+  }
+
+  return[];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   /**
    * ❤️ Toggle функция
