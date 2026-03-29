@@ -1,42 +1,54 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const handleToggle = () => {    setMenuOpen(!menuOpen);
+
+  const handleToggle = () => {
+    setMenuOpen((prev) => !prev);
   };
-  const handleClose = () => {    setMenuOpen(false);
+
+  const handleClose = () => {
+    setMenuOpen(false);
   };
+
   return (
-    <header >
+    <header className="site-header">
       <div className="header-inner">
-        <Link to="/">Logo</Link>
+        <Link to="/" className="brand-mark" onClick={handleClose}>
+          <span className="brand-mark__badge">TE</span>
+          <span className="brand-mark__text">
+            <strong>Travel Explorer</strong>
+            <small>Modern travel inspiration</small>
+          </span>
+        </Link>
 
-      <nav className="nav-desktop">
-        <Link to="/">Home</Link>
-        <Link to="/explore">Explore</Link>
-        <Link to="/favorites">Favorites</Link>
-        <Link to="/trips">Trips</Link>
-      </nav>
+        <nav className="nav-desktop">
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/explore">Explore</NavLink>
+          <NavLink to="/favorites">Favorites</NavLink>
+          <NavLink to="/trips">Trips</NavLink>
+        </nav>
 
-      <button onClick={handleToggle} className="menu-btn">Menu</button>
+        <button onClick={handleToggle} className="menu-btn" type="button">
+          {menuOpen ? "Close" : "Menu"}
+        </button>
       </div>
-
 
       {menuOpen && (
         <div className="nav-mobile">
-          <Link to="/" onClick={handleClose}>
+          <NavLink to="/" onClick={handleClose}>
             Home
-          </Link>
-          <Link to="/explore" onClick={handleClose}>
+          </NavLink>
+          <NavLink to="/explore" onClick={handleClose}>
             Explore
-          </Link>
-          <Link to="/favorites" onClick={handleClose}>
+          </NavLink>
+          <NavLink to="/favorites" onClick={handleClose}>
             Favorites
-          </Link>
-          <Link to="/trips" onClick={handleClose}>
+          </NavLink>
+          <NavLink to="/trips" onClick={handleClose}>
             Trips
-          </Link>
+          </NavLink>
         </div>
       )}
     </header>

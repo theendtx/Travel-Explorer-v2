@@ -7,30 +7,19 @@ import RegionFilter from "../RegionFilter";
 import PopulationFilter from "../PopulationFilter";
 import SkeletonList from "../SkeletonList/SkeletonList";
 
-/**
- * 🔥 Props App-тен келеді
- */
 type Props = {
   favorites: string[];
   onToggleFavorite: (name: string) => void;
 };
 
 function Explore({ favorites, onToggleFavorite }: Props) {
-  /**
-   * 📦 State (локальный)
-   */
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // 🔍 search + filters
   const [search, setSearch] = useState("");
   const [region, setRegion] = useState("");
   const [sort, setSort] = useState("");
 
-  /**
-   * 🌍 API fetch
-   */
   useEffect(() => {
     const fetchCountries = async () => {
       setLoading(true);
@@ -48,62 +37,59 @@ function Explore({ favorites, onToggleFavorite }: Props) {
     fetchCountries();
   }, []);
 
-  /**
-   * 🧠 FILTER + SEARCH + SORT
-   */
   let filteredCountries = countries;
 
-  // 🔍 search
   if (search) {
-    filteredCountries = filteredCountries.filter((c) =>
-      c.name.common.toLowerCase().includes(search.toLowerCase())
+    filteredCountries = filteredCountries.filter((country) =>
+      country.name.common.toLowerCase().includes(search.toLowerCase())
     );
   }
 
-  // 🌍 region
   if (region) {
-    filteredCountries = filteredCountries.filter(
-      (c) => c.region === region
-    );
+    filteredCountries = filteredCountries.filter((country) => country.region === region);
   }
 
-  // 📊 sorting
   if (sort === "asc") {
-    filteredCountries = [...filteredCountries].sort(
-      (a, b) => a.population - b.population
-    );
+    filteredCountries = [...filteredCountries].sort((a, b) => a.population - b.population);
   }
 
   if (sort === "desc") {
-    filteredCountries = [...filteredCountries].sort(
-      (a, b) => b.population - a.population
-    );
+    filteredCountries = [...filteredCountries].sort((a, b) => b.population - a.population);
   }
 
-  /**
-   * 🧠 UI STATES
-   */
   if (loading) return <SkeletonList />;
   if (error) return <p className="error">{error}</p>;
 
   return (
-    <div>
-      <h1>Explore Countries</h1>
+    <section className="page">
+      <div className="page-heading">
+        <div>
+          <span className="eyebrow">Explore</span>
+          <h1>Browse countries with graceful motion.</h1>
+          <p>Search, filter, and sort destinations in a bright travel-focused interface.</p>
+        </div>
+        <div className="results-pill">{filteredCountries.length} destinations</div>
+      </div>
 
-      {/* 🔍 Search */}
-      <SearchBar onSearch={setSearch} />
+      <div className="toolbar">
+        <SearchBar onSearch={setSearch} />
+        <RegionFilter value={region} onChange={setRegion} />
+        <PopulationFilter value={sort} onChange={setSort} />
+      </div>
 
-      {/* 🌍 Filters */}
-      <RegionFilter value={region} onChange={setRegion} />
-      <PopulationFilter value={sort} onChange={setSort} />
-
-      {/* 📦 LIST */}
-      <CountryList
-        countries={filteredCountries}
-        favorites={favorites}
-        onToggleFavorite={onToggleFavorite}
-      />
-    </div>
+      {filteredCountries.length === 0 ? (
+        <div className="empty-state">
+          <h2>No countries found</h2>
+          <p>Try adjusting the search text or switching the selected filters.</p>
+        </div>
+      ) : (
+        <CountryList
+          countries={filteredCountries}
+          favorites={favorites}
+          onToggleFavorite={onToggleFavorite}
+        />
+      )}
+    </section>
   );
 }
 

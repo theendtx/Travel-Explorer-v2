@@ -1,14 +1,20 @@
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Container from "../Container/Container";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 function Layout() {
+  const location = useLocation();
+
   return (
-    <div>
+    <div className="site-shell">
       <Header />
       <Container>
-        <Outlet />
+        <main className="page-shell">
+          <div key={location.pathname} className="page-transition">
+            <Outlet />
+          </div>
+        </main>
       </Container>
       <Footer />
     </div>

@@ -1,5 +1,5 @@
 const BASE_URL = "https://restcountries.com/v3.1";
-const COUNTRY_FIELDS = "name,capital,region,population,flags,cca3";
+const COUNTRY_FIELDS = "name,capital,region,population,flags,cca3,languages";
 
 export type Country = {
   cca3: string;

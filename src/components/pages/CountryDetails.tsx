@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getCountryByName, type Country } from "../services/CountriesApi";
 
 function CountryDetails() {
-  // 📌 URL-дан name аламыз (/country/kazakhstan)
   const { name } = useParams();
-
-  // 📦 state
   const [country, setCountry] = useState<Country | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // ❗ name жоқ болса — тоқтаймыз
     if (!name) return;
 
     const fetchCountry = async () => {
@@ -20,7 +16,6 @@ function CountryDetails() {
 
       try {
         const data = await getCountryByName(name);
-
         setCountry(data);
       } catch {
         setError("Failed to load country");
@@ -32,37 +27,49 @@ function CountryDetails() {
     fetchCountry();
   }, [name]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-
-  // ❗ data келмей тұрса
+  if (loading) return <p className="status-text">Loading country details...</p>;
+  if (error) return <p className="error">{error}</p>;
   if (!country) return null;
 
   return (
-    <div className="country-details">
-      <img
-        src={country.flags?.png}
-        alt={country.name.common}
-        className="country-flag"
-      /> 
-      <div className="country-info">
+    <section className="page">
+      <Link to="/explore" className="back-link">
+        Back to explore
+      </Link>
 
-      <h1>{country.name.common}</h1>
+      <div className="country-details">
+        <img
+          src={country.flags?.png}
+          alt={country.flags?.alt || country.name.common}
+          className="country-flag"
+        />
 
-      <p>Region: {country.region}</p>
-      <p>Capital: {country.capital?.[0]}</p>
-      <p>Population: {country.population}</p>
-      <p><strong>Languages:</strong> {" "}
-      {
-      
-        Object.values(country.languages || {}).join(", ")
-        }
-      </p>
+        <div className="country-info">
+          <span className="eyebrow">{country.region || "Destination"}</span>
+          <h1>{country.name.common}</h1>
+
+          <div className="country-info__grid">
+            <p>
+              <strong>Capital</strong>
+              <span>{country.capital?.[0] || "Unknown"}</span>
+            </p>
+            <p>
+              <strong>Population</strong>
+              <span>{country.population.toLocaleString()}</span>
+            </p>
+            <p>
+              <strong>Region</strong>
+              <span>{country.region || "Unknown"}</span>
+            </p>
+            <p>
+              <strong>Languages</strong>
+              <span>{Object.values(country.languages || {}).join(", ") || "Unknown"}</span>
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
 export default CountryDetails;
-
-
