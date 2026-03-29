@@ -39,17 +39,26 @@ function CountryDetails() {
   if (!country) return null;
 
   return (
-    <div>
-      <h1>{country.name.common}</h1>
-
+    <div className="country-details">
       <img
         src={country.flags?.png}
         alt={country.name.common}
-        width={200}
+        className="country-flag"
       /> 
+      <div className="country-info">
+
+      <h1>{country.name.common}</h1>
+
+      <p>Region: {country.region}</p>
       <p>Capital: {country.capital?.[0]}</p>
       <p>Population: {country.population}</p>
-      <p>Region: {country.region}</p>
+      <p><strong>Languages:</strong> {" "}
+      {
+      
+        Object.values(country.languages || {}).join(", ")
+        }
+      </p>
+      </div>
     </div>
   );
 }
