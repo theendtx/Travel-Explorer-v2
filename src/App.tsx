@@ -61,7 +61,9 @@ function App() {
           {/* 🔥 Favorites — тек favorites list алады */}
           <Route
             path="/favorites"
-            element={<Favorites favorites={favorites} />}
+            element={<Favorites 
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite} />}
           />
 
           <Route path="/trips" element={<Trips />} />
