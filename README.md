@@ -1,73 +1,150 @@
-# React + TypeScript + Vite
+# 🌍 Travel Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern travel planning web application built with React and TypeScript.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Project Overview
 
-## React Compiler
+Travel Explorer is a web application that allows users to explore countries, search and filter them, save favorites, and create personal trip plans.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Users can:
 
-## Expanding the ESLint configuration
+* 🌎 Browse countries from around the world
+* 🔍 Search countries by name (with debounce)
+* 🎯 Filter by region and sort by population
+* ❤️ Add and remove favorite countries
+* ✈️ Create, edit, and delete travel plans
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠 Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* **React** — UI development
+* **TypeScript** — type safety
+* **Vite** — fast build tool
+* **React Router** — routing
+* **CSS (Flexbox + Grid)** — layout and responsiveness
+* **REST Countries API** — data source
+* **localStorage** — data persistence
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 🧱 Architecture
+
+Project structure:
+
+```
+src/
+ ├── components/
+ │    ├── CountryCard
+ │    ├── CountryList
+ │    ├── SearchBar
+ │    ├── Filters
+ │
+ ├── pages/
+ │    ├── Explore.tsx
+ │    ├── CountryDetails.tsx
+ │    ├── Favorites.tsx
+ │    ├── Trips.tsx
+ │
+ ├── services/
+ │    └── CountriesApi.ts
+ │
+ ├── types/
+ │    ├── country.ts
+ │    └── trip.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Features
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 🌍 Explore Page
+
+* Fetch and display all countries
+* Search with debounce
+* Filter by region
+* Sort by population
+
+### 📄 Country Details
+
+* Flag
+* Capital
+* Population
+* Region
+* Languages
+
+### ❤️ Favorites
+
+* Add/remove favorites
+* Persistent storage using localStorage
+
+### ✈️ Trips
+
+* Create trips
+* Edit trips
+* Delete trips
+* Stored in localStorage
+
+---
+
+## 📱 Responsive Design
+
+The application is fully responsive and works on:
+
+* Mobile devices 📱
+* Tablets 📲
+* Desktop 💻
+
+---
+
+## 🌐 API
+
+Data provided by:
+
+https://restcountries.com/v3.1
+
+---
+
+## 🚀 Deployment
+
+Deployed using **Vercel**:
+
+👉 https://your-project-url.vercel.app
+
+---
+
+## 📦 Installation
+
+```bash
+npm install
+npm run dev
 ```
+
+---
+
+## 🧠 What I Learned
+
+* React component architecture
+* State management and data flow
+* API integration and async logic
+* Handling loading and error states
+* Responsive design principles
+* LocalStorage persistence
+* Clean code and project structure
+
+---
+
+## 📌 Future Improvements
+
+* User authentication
+* Dark/light mode
+* Improved UI/UX
+* Animations and transitions
+
+---
+
+## 👨‍💻 Author
+
+Developed by Kana 🚀
