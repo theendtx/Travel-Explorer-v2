@@ -111,7 +111,7 @@ https://restcountries.com/v3.1
 
 Deployed using **Vercel**:
 
-👉 https://your-project-url.vercel.app
+👉 https://travel-explorer-v2.vercel.app/
 
 ---
 
