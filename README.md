@@ -1,150 +1,92 @@
 # 🌍 Travel Explorer
 
-A modern travel planning web application built with React and TypeScript.
+A responsive travel planning web application built with React and TypeScript.
 
----
+Explore countries around the world, search and filter destinations, save favorites, and create personal travel plans.
 
-## 🚀 Project Overview
+## 🌐 Live Demo
 
-Travel Explorer is a web application that allows users to explore countries, search and filter them, save favorites, and create personal trip plans.
+[Open Travel Explorer](https://travel-explorer-v2.vercel.app/)
 
-Users can:
+## ✨ Features
 
-* 🌎 Browse countries from around the world
-* 🔍 Search countries by name (with debounce)
-* 🎯 Filter by region and sort by population
-* ❤️ Add and remove favorite countries
-* ✈️ Create, edit, and delete travel plans
+- 🌍 Browse countries from around the world
+- 🔎 Search countries by name with debounce
+- 🎯 Filter countries by region
+- 📊 Sort countries by population
+- ❤️ Add and remove favorite countries
+- 📄 View detailed country information
+- ✈️ Create personal travel plans
+- ✏️ Edit existing travel plans
+- 🗑️ Delete travel plans
+- 💾 Persist favorites and travel plans with localStorage
+- 📱 Fully responsive design for mobile, tablet, and desktop
 
----
+## 🛠️ Tech Stack
 
-## 🛠 Tech Stack
+- React
+- TypeScript
+- Vite
+- React Router
+- CSS (Flexbox & Grid)
+- REST API
+- localStorage
 
-* **React** — UI development
-* **TypeScript** — type safety
-* **Vite** — fast build tool
-* **React Router** — routing
-* **CSS (Flexbox + Grid)** — layout and responsiveness
-* **REST Countries API** — data source
-* **localStorage** — data persistence
+## 🧩 Architecture
 
----
+The application follows a component-based structure with separate pages, reusable UI components, API services, and TypeScript types.
 
-## 🧱 Architecture
-
-Project structure:
-
-```
+```text
 src/
- ├── components/
- │    ├── CountryCard
- │    ├── CountryList
- │    ├── SearchBar
- │    ├── Filters
- │
- ├── pages/
- │    ├── Explore.tsx
- │    ├── CountryDetails.tsx
- │    ├── Favorites.tsx
- │    ├── Trips.tsx
- │
- ├── services/
- │    └── CountriesApi.ts
- │
- ├── types/
- │    ├── country.ts
- │    └── trip.ts
-```
+├── components/
+│   ├── CountryCard
+│   ├── CountryList
+│   ├── SearchBar
+│   └── Filters
+│
+├── pages/
+│   ├── Explore.tsx
+│   ├── CountryDetails.tsx
+│   ├── Favorites.tsx
+│   └── Trips.tsx
+│
+├── services/
+│   └── CountriesApi.ts
+│
+└── types/
+    ├── country.ts
+    └── trip.ts
 
----
+🔌 API
+Country data is provided by the REST Countries API:
+https://restcountries.com/
+The application fetches country data from the API and handles searching, filtering, sorting, and displaying detailed country information.
 
-## ⚙️ Features
+💡 Key Highlights
+- Debounced search to reduce unnecessary operations
+- Client-side filtering and sorting
+- Reusable React components
+- API integration with asynchronous data handling
+- Persistent client-side data with localStorage
+- Responsive UI architecture
+- Type-safe development with TypeScript
+- Client-side routing with React Router
 
-### 🌍 Explore Page
+📱 Responsive Design
+The application is fully responsive and optimized for:
+- 📱 Mobile
+- 📲 Tablet
+- 💻 Desktop
 
-* Fetch and display all countries
-* Search with debounce
-* Filter by region
-* Sort by population
-
-### 📄 Country Details
-
-* Flag
-* Capital
-* Population
-* Region
-* Languages
-
-### ❤️ Favorites
-
-* Add/remove favorites
-* Persistent storage using localStorage
-
-### ✈️ Trips
-
-* Create trips
-* Edit trips
-* Delete trips
-* Stored in localStorage
-
----
-
-## 📱 Responsive Design
-
-The application is fully responsive and works on:
-
-* Mobile devices 📱
-* Tablets 📲
-* Desktop 💻
-
----
-
-## 🌐 API
-
-Data provided by:
-
-https://restcountries.com/v3.1
-
----
-
-## 🚀 Deployment
-
-Deployed using **Vercel**:
-
-👉 https://travel-explorer-v2.vercel.app/
-
----
-
-## 📦 Installation
-
-```bash
+🚀 Getting Started
+Clone the repository and install dependencies:
+git clone https://github.com/theendtx/Travel-Explorer-v2.git
+cd Travel-Explorer-v2
 npm install
 npm run dev
-```
 
----
+The application will be available at:
+http://localhost:5173
 
-## 🧠 What I Learned
-
-* React component architecture
-* State management and data flow
-* API integration and async logic
-* Handling loading and error states
-* Responsive design principles
-* LocalStorage persistence
-* Clean code and project structure
-
----
-
-## 📌 Future Improvements
-
-* User authentication
-* Dark/light mode
-* Improved UI/UX
-* Animations and transitions
-
----
-
-## 👨‍💻 Author
-
-Developed by Kana 🚀
+👨‍💻 Author
+Developed by theendtx
