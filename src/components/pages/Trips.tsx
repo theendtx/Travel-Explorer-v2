@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useDeferredValue, useEffect, useState, type FormEvent } from "react";
 import { getAllCountries, type Country } from "../services/CountriesApi";
 
 type Trip = {
@@ -14,10 +14,13 @@ function Trips() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [countriesLoading, setCountriesLoading] = useState(false);
   const [countriesError, setCountriesError] = useState<string | null>(null);
+  const [countrySearch, setCountrySearch] = useState("");
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [trips, setTrips] = useState<Trip[]>(() => {
     const saved = localStorage.getItem("trips");
     return saved ? JSON.parse(saved) : [];
   });
+  const deferredCountrySearch = useDeferredValue(countrySearch);
 
   useEffect(() => {
     localStorage.setItem("trips", JSON.stringify(trips));
@@ -51,7 +54,20 @@ function Trips() {
   const handleEdit = (trip: Trip) => {
     setTripName(trip.tripName);
     setCountry(trip.country);
+    setCountrySearch(trip.country);
     setEditingId(trip.id);
+  };
+
+  const filteredCountries = countries
+    .filter((item) =>
+      item.name.common.toLowerCase().includes(deferredCountrySearch.toLowerCase())
+    )
+    .slice(0, 8);
+
+  const handleSelectCountry = (selectedCountry: string) => {
+    setCountry(selectedCountry);
+    setCountrySearch(selectedCountry);
+    setIsPickerOpen(false);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -77,6 +93,7 @@ function Trips() {
 
     setTripName("");
     setCountry("");
+    setCountrySearch("");
   };
 
   return (
@@ -99,28 +116,66 @@ function Trips() {
           required
         />
 
-        <select
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          required
-          disabled={countriesLoading || !!countriesError}
-        >
-          <option value="">
-            {countriesLoading
-              ? "Loading countries..."
-              : countriesError
-                ? "Countries unavailable"
-                : "Select country"}
-          </option>
+        <div className="country-picker">
+          <input
+            type="text"
+            className="country-picker__input"
+            placeholder={
+              countriesLoading
+                ? "Loading countries..."
+                : countriesError
+                  ? "Countries unavailable"
+                  : "Search country"
+            }
+            value={countrySearch}
+            onFocus={() => setIsPickerOpen(true)}
+            onChange={(e) => {
+              setCountrySearch(e.target.value);
+              setCountry("");
+              setIsPickerOpen(true);
+            }}
+            onBlur={() => {
+              window.setTimeout(() => {
+                setIsPickerOpen(false);
 
-          {countries.map((item) => (
-            <option key={item.cca3} value={item.name.common}>
-              {item.name.common}
-            </option>
-          ))}
-        </select>
+                if (!country && countrySearch) {
+                  setCountrySearch("");
+                }
+              }, 120);
+            }}
+            disabled={countriesLoading || !!countriesError}
+          />
 
-        <button type="submit" className="button-primary" disabled={countriesLoading || !!countriesError}>
+          <div className="country-picker__meta">
+            {country
+              ? `Selected: ${country}`
+              : countriesLoading
+                ? "Loading destination list..."
+                : "Type to search from all countries"}
+          </div>
+
+          {isPickerOpen && !countriesLoading && !countriesError && (
+            <div className="country-picker__menu">
+              {filteredCountries.length > 0 ? (
+                filteredCountries.map((item) => (
+                  <button
+                    key={item.cca3}
+                    type="button"
+                    className="country-picker__option"
+                    onMouseDown={() => handleSelectCountry(item.name.common)}
+                  >
+                    <span>{item.name.common}</span>
+                    <small>{item.region || "Region"}</small>
+                  </button>
+                ))
+              ) : (
+                <div className="country-picker__empty">No matching countries</div>
+              )}
+            </div>
+          )}
+        </div>
+
+        <button type="submit" className="button-primary" disabled={countriesLoading || !!countriesError || !country}>
           {editingId ? "Update trip" : "Create trip"}
         </button>
       </form>

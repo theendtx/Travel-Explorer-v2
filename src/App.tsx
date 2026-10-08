@@ -14,13 +14,19 @@ function App() {
    * Барлық беттерге ортақ favorites
    */
   const [favorites, setFavorites] = useState<string[]>(() => {
-      const saved = localStorage.getItem("favorites");
+    const saved = localStorage.getItem("favorites");
 
-  if (saved) {
-    return JSON.parse(saved);
-  }
+    if (!saved) {
+      return [];
+    }
 
-  return[];
+    try {
+      const parsed = JSON.parse(saved);
+
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
   });
 
   useEffect(() => {
@@ -43,11 +49,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Layout барлық беттерге ортақ */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
 
-          {/* 🔥 Explore — favorites алады */}
           <Route
             path="/explore"
             element={
@@ -58,12 +62,14 @@ function App() {
             }
           />
 
-          {/* 🔥 Favorites — тек favorites list алады */}
           <Route
             path="/favorites"
-            element={<Favorites 
-              favorites={favorites}
-              onToggleFavorite={toggleFavorite} />}
+            element={
+              <Favorites
+                favorites={favorites}
+                onToggleFavorite={toggleFavorite}
+              />
+            }
           />
 
           <Route path="/trips" element={<Trips />} />
